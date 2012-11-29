@@ -1,6 +1,3 @@
-ZAActivityBar
-=============
-
 _**If your project doesn't use ARC**: you must add the `-fobjc-arc` compiler flag to `ZAActivityBar.m` in Target Settings > Build Phases > Compile Sources._
 
 # ZAActivityBar
