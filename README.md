@@ -12,3 +12,7 @@ ZAActivityBar is an easy-to-use activity bar that's meant to non-intrusively dis
 ## Video
 
 [Link to Video](https://www.dropbox.com/s/bwv8z9u595ehngi/ZAActivityBar.mov)
+
+## Credits
+
+ZAActivityBar is brought to you by [Zac Altman](https://github.com/zacaltman). It was heavily influenced by [SVProgressHUD](https://raw.github.com/samvermette/SVProgressHUD) by [Sam Vermette](http://samvermette.com). The success and error icons are from [Pictos](http://pictos.cc/). If you have feature suggestions or bug reports, feel free to help out by sending pull requests or by [creating new issues](https://github.com/zacaltman/ZAActivityBar/issues/new). If you're using ZAActivityBar in your project, attribution would be nice.
