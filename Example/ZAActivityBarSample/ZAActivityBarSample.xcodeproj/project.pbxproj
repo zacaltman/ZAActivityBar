@@ -1,0 +1,317 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		89E3B01816759B180063C5ED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01716759B180063C5ED /* UIKit.framework */; };
+		89E3B01A16759B180063C5ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01916759B180063C5ED /* Foundation.framework */; };
+		89E3B01C16759B180063C5ED /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01B16759B180063C5ED /* CoreGraphics.framework */; };
+		89E3B02216759B180063C5ED /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B02016759B180063C5ED /* InfoPlist.strings */; };
+		89E3B02416759B180063C5ED /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3B02316759B180063C5ED /* main.m */; };
+		89E3B02816759B180063C5ED /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3B02716759B180063C5ED /* AppDelegate.m */; };
+		89E3B02A16759B180063C5ED /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B02916759B180063C5ED /* Default.png */; };
+		89E3B02C16759B180063C5ED /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B02B16759B180063C5ED /* Default@2x.png */; };
+		89E3B02E16759B180063C5ED /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B02D16759B180063C5ED /* Default-568h@2x.png */; };
+		89E3B03116759B180063C5ED /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3B03016759B180063C5ED /* ViewController.m */; };
+		89E3B03416759B180063C5ED /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B03216759B180063C5ED /* ViewController.xib */; };
+		89E3B03E16759B410063C5ED /* ZAActivityBar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B03B16759B410063C5ED /* ZAActivityBar.bundle */; };
+		89E3B03F16759B410063C5ED /* ZAActivityBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3B03D16759B410063C5ED /* ZAActivityBar.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		89E3B01316759B180063C5ED /* ZAActivityBarSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZAActivityBarSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		89E3B01716759B180063C5ED /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		89E3B01916759B180063C5ED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		89E3B01B16759B180063C5ED /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		89E3B01F16759B180063C5ED /* ZAActivityBarSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZAActivityBarSample-Info.plist"; sourceTree = "<group>"; };
+		89E3B02116759B180063C5ED /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		89E3B02316759B180063C5ED /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		89E3B02516759B180063C5ED /* ZAActivityBarSample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZAActivityBarSample-Prefix.pch"; sourceTree = "<group>"; };
+		89E3B02616759B180063C5ED /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		89E3B02716759B180063C5ED /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		89E3B02916759B180063C5ED /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		89E3B02B16759B180063C5ED /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		89E3B02D16759B180063C5ED /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		89E3B02F16759B180063C5ED /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		89E3B03016759B180063C5ED /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		89E3B03316759B180063C5ED /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		89E3B03B16759B410063C5ED /* ZAActivityBar.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ZAActivityBar.bundle; path = ../../../ZAActivityBar.bundle; sourceTree = "<group>"; };
+		89E3B03C16759B410063C5ED /* ZAActivityBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZAActivityBar.h; path = ../../../ZAActivityBar.h; sourceTree = "<group>"; };
+		89E3B03D16759B410063C5ED /* ZAActivityBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZAActivityBar.m; path = ../../../ZAActivityBar.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		89E3B01016759B180063C5ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89E3B01816759B180063C5ED /* UIKit.framework in Frameworks */,
+				89E3B01A16759B180063C5ED /* Foundation.framework in Frameworks */,
+				89E3B01C16759B180063C5ED /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		89E3B00816759B180063C5ED = {
+			isa = PBXGroup;
+			children = (
+				89E3B01D16759B180063C5ED /* ZAActivityBarSample */,
+				89E3B01616759B180063C5ED /* Frameworks */,
+				89E3B01416759B180063C5ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		89E3B01416759B180063C5ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				89E3B01316759B180063C5ED /* ZAActivityBarSample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		89E3B01616759B180063C5ED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89E3B01716759B180063C5ED /* UIKit.framework */,
+				89E3B01916759B180063C5ED /* Foundation.framework */,
+				89E3B01B16759B180063C5ED /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		89E3B01D16759B180063C5ED /* ZAActivityBarSample */ = {
+			isa = PBXGroup;
+			children = (
+				89E3B03A16759B2F0063C5ED /* ZAActivityBar */,
+				89E3B02616759B180063C5ED /* AppDelegate.h */,
+				89E3B02716759B180063C5ED /* AppDelegate.m */,
+				89E3B02F16759B180063C5ED /* ViewController.h */,
+				89E3B03016759B180063C5ED /* ViewController.m */,
+				89E3B03216759B180063C5ED /* ViewController.xib */,
+				89E3B01E16759B180063C5ED /* Supporting Files */,
+			);
+			path = ZAActivityBarSample;
+			sourceTree = "<group>";
+		};
+		89E3B01E16759B180063C5ED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				89E3B01F16759B180063C5ED /* ZAActivityBarSample-Info.plist */,
+				89E3B02016759B180063C5ED /* InfoPlist.strings */,
+				89E3B02316759B180063C5ED /* main.m */,
+				89E3B02516759B180063C5ED /* ZAActivityBarSample-Prefix.pch */,
+				89E3B02916759B180063C5ED /* Default.png */,
+				89E3B02B16759B180063C5ED /* Default@2x.png */,
+				89E3B02D16759B180063C5ED /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89E3B03A16759B2F0063C5ED /* ZAActivityBar */ = {
+			isa = PBXGroup;
+			children = (
+				89E3B03B16759B410063C5ED /* ZAActivityBar.bundle */,
+				89E3B03C16759B410063C5ED /* ZAActivityBar.h */,
+				89E3B03D16759B410063C5ED /* ZAActivityBar.m */,
+			);
+			name = ZAActivityBar;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		89E3B01216759B180063C5ED /* ZAActivityBarSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89E3B03716759B180063C5ED /* Build configuration list for PBXNativeTarget "ZAActivityBarSample" */;
+			buildPhases = (
+				89E3B00F16759B180063C5ED /* Sources */,
+				89E3B01016759B180063C5ED /* Frameworks */,
+				89E3B01116759B180063C5ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZAActivityBarSample;
+			productName = ZAActivityBarSample;
+			productReference = 89E3B01316759B180063C5ED /* ZAActivityBarSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		89E3B00A16759B180063C5ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Zac Altman";
+			};
+			buildConfigurationList = 89E3B00D16759B180063C5ED /* Build configuration list for PBXProject "ZAActivityBarSample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 89E3B00816759B180063C5ED;
+			productRefGroup = 89E3B01416759B180063C5ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				89E3B01216759B180063C5ED /* ZAActivityBarSample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		89E3B01116759B180063C5ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89E3B02216759B180063C5ED /* InfoPlist.strings in Resources */,
+				89E3B02A16759B180063C5ED /* Default.png in Resources */,
+				89E3B02C16759B180063C5ED /* Default@2x.png in Resources */,
+				89E3B02E16759B180063C5ED /* Default-568h@2x.png in Resources */,
+				89E3B03416759B180063C5ED /* ViewController.xib in Resources */,
+				89E3B03E16759B410063C5ED /* ZAActivityBar.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		89E3B00F16759B180063C5ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89E3B02416759B180063C5ED /* main.m in Sources */,
+				89E3B02816759B180063C5ED /* AppDelegate.m in Sources */,
+				89E3B03116759B180063C5ED /* ViewController.m in Sources */,
+				89E3B03F16759B410063C5ED /* ZAActivityBar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		89E3B02016759B180063C5ED /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89E3B02116759B180063C5ED /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		89E3B03216759B180063C5ED /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89E3B03316759B180063C5ED /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		89E3B03516759B180063C5ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		89E3B03616759B180063C5ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		89E3B03816759B180063C5ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ZAActivityBarSample/ZAActivityBarSample-Prefix.pch";
+				INFOPLIST_FILE = "ZAActivityBarSample/ZAActivityBarSample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		89E3B03916759B180063C5ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ZAActivityBarSample/ZAActivityBarSample-Prefix.pch";
+				INFOPLIST_FILE = "ZAActivityBarSample/ZAActivityBarSample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		89E3B00D16759B180063C5ED /* Build configuration list for PBXProject "ZAActivityBarSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89E3B03516759B180063C5ED /* Debug */,
+				89E3B03616759B180063C5ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		89E3B03716759B180063C5ED /* Build configuration list for PBXNativeTarget "ZAActivityBarSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89E3B03816759B180063C5ED /* Debug */,
+				89E3B03916759B180063C5ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 89E3B00A16759B180063C5ED /* Project object */;
+}
