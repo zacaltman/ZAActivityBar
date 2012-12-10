@@ -33,7 +33,7 @@ Dismiss the indicator
 Notes:
 * ZAActivityBar is completely thread safe.
 * When using 'showWithStatus:' you will need to dismiss the bar either by calling 'dismiss' or showing an error or success message.
-* ZAActivityBar is screen independant. That is, if you switch screens via any means the bar will remain on screen.
+* ZAActivityBar is screen independent. That is, if you switch screens via any means the bar will remain on screen.
 
 ## Credits
 
