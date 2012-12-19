@@ -16,18 +16,5 @@
          landmarkName = "-showWithStatus:"
          landmarkType = "5">
       </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "../../ZAActivityBar.m"
-         timestampString = "377567685.36928"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "267"
-         endingLineNumber = "267"
-         landmarkName = "-removeAnimationForKey:"
-         landmarkType = "5">
-      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

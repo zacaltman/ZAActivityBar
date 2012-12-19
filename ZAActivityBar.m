@@ -35,38 +35,7 @@
 
 @synthesize fadeOutTimer, overlayWindow, barView, stringLabel, spinnerView, imageView;
 
-- (void)dealloc {
-	self.fadeOutTimer = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)setFadeOutTimer:(NSTimer *)newTimer {
-    
-    if(fadeOutTimer)
-        [fadeOutTimer invalidate], fadeOutTimer = nil;
-    
-    if(newTimer)
-        fadeOutTimer = newTimer;
-}
-
-- (id)initWithFrame:(CGRect)frame {
-	
-    if ((self = [super initWithFrame:frame])) {
-		self.userInteractionEnabled = NO;
-        self.backgroundColor = [UIColor clearColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _isVisible = NO;
-    }
-	
-    return self;
-}
-
-+ (ZAActivityBar *) sharedView {
-    static dispatch_once_t once;
-    static ZAActivityBar *sharedView;
-    dispatch_once(&once, ^ { sharedView = [[ZAActivityBar alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; });
-    return sharedView;
-}
+#pragma mark - Show Methods
 
 + (void) showWithStatus:(NSString *)status {
     [[ZAActivityBar sharedView] showWithStatus:status];
@@ -155,10 +124,7 @@
 
 }
 
-+ (BOOL)isVisible {
-    return [[ZAActivityBar sharedView] isVisible];
-}
-
+#pragma mark - Property Methods
 
 - (void)setStatus:(NSString *)string {
 	
@@ -176,19 +142,7 @@
 
         labelRect = CGRectMake(offset, 0, stringWidth, HEIGHT);
         
-//        if(stringWidth > hudWidth)
-//            hudWidth = ceil(stringWidth/2)*2;
-//        
-//        if(hudHeight > 100) {
-//            labelRect = CGRectMake(12, 66, hudWidth, stringHeight);
-//            hudWidth+=24;
-//        } else {
-//            hudWidth+=24;
-//            labelRect = CGRectMake(0, 66, hudWidth, stringHeight);
-//        }
     }
-	
-//	self.hudView.bounds = CGRectMake(0, 0, hudWidth, hudHeight);
 	
 	self.stringLabel.hidden = NO;
 	self.stringLabel.text = string;
@@ -196,85 +150,14 @@
 	
 }
 
-
-- (UILabel *)stringLabel {
-    if (stringLabel == nil) {
-        stringLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		stringLabel.textColor = [UIColor whiteColor];
-		stringLabel.backgroundColor = [UIColor clearColor];
-		stringLabel.adjustsFontSizeToFitWidth = YES;
-		stringLabel.textAlignment = UITextAlignmentLeft;
-		stringLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-		stringLabel.font = [UIFont boldSystemFontOfSize:14];
-		stringLabel.shadowColor = [UIColor blackColor];
-		stringLabel.shadowOffset = CGSizeMake(0, -1);
-        stringLabel.numberOfLines = 0;
-    }
-    
-    if(!stringLabel.superview)
-        [self.barView addSubview:stringLabel];
-    
-    return stringLabel;
++ (BOOL)isVisible {
+    return [[ZAActivityBar sharedView] isVisible];
 }
 
-- (float) getOffscreenYPosition {
-    return self.frame.size.height + ((HEIGHT / 2) + PADDING);
-}
-
-- (float) getBarYPosition {
-    return self.frame.size.height - ((HEIGHT / 2) + PADDING) - BOTTOM_OFFSET;
-}
-
-- (void) setYOffset:(float)yOffset {
-    CGRect rect = self.barView.frame;
-    rect.origin.y = yOffset;
-    [self.barView setFrame:rect];
-}
-
-- (void)drawRect:(CGRect)rect {
-    
-}
+#pragma mark - Dismiss Methods
 
 + (void) dismiss {
 	[[ZAActivityBar sharedView] dismiss];
-}
-
-// For some reason the SKBounceAnimation isn't removed if this method
-// doesn't exist... Why?
-- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-}
-
-- (void) removeAnimationForKey:(NSString *)key {
-    if ([self.barView.layer.animationKeys containsObject:key]) {
-        CAAnimation *anim = [self.barView.layer animationForKey:key];
-        
-        // Find out how far into the animation we made it
-        CFTimeInterval startTime = [[anim valueForKey:@"beginTime"] floatValue];
-        CFTimeInterval pausedTime = [self.barView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
-        float diff = pausedTime - startTime;
-        
-        // We only need a ~rough~ frame, so it doesn't jump to the end position
-        // and stays as close to in place as possible.
-        int frame = (diff * 58.57 - 1); // 58fps?
-        NSArray *frames = [anim valueForKey:@"values"];
-        if (frame >= frames.count)  // For security
-            frame = frames.count - 1;
-        
-        float yOffset = [[frames objectAtIndex:frame] floatValue];
-        
-        // And lets set that
-        CGPoint position = self.barView.layer.position;
-        position.y = yOffset;
-        
-        // We want to disable the implicit animation
-        [CATransaction begin];
-        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-        [self.barView.layer setPosition:position];
-        [CATransaction commit];
-        
-        // And... actually remove it.
-        [self.barView.layer removeAnimationForKey:key];
-    }
 }
 
 - (void) dismiss {
@@ -321,8 +204,122 @@
     });
 }
 
+#pragma mark - Helpers
+
+- (float) getOffscreenYPosition {
+    return self.frame.size.height + ((HEIGHT / 2) + PADDING);
+}
+
+- (float) getBarYPosition {
+    return self.frame.size.height - ((HEIGHT / 2) + PADDING) - BOTTOM_OFFSET;
+}
+
+- (void) setYOffset:(float)yOffset {
+    CGRect rect = self.barView.frame;
+    rect.origin.y = yOffset;
+    [self.barView setFrame:rect];
+}
+
+#pragma mark - Animation Methods / Helpers
+
+// For some reason the SKBounceAnimation isn't removed if this method
+// doesn't exist... Why?
+- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+}
+
+- (void) removeAnimationForKey:(NSString *)key {
+    if ([self.barView.layer.animationKeys containsObject:key]) {
+        CAAnimation *anim = [self.barView.layer animationForKey:key];
+        
+        // Find out how far into the animation we made it
+        CFTimeInterval startTime = [[anim valueForKey:@"beginTime"] floatValue];
+        CFTimeInterval pausedTime = [self.barView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+        float diff = pausedTime - startTime;
+        
+        // We only need a ~rough~ frame, so it doesn't jump to the end position
+        // and stays as close to in place as possible.
+        int frame = (diff * 58.57 - 1); // 58fps?
+        NSArray *frames = [anim valueForKey:@"values"];
+        if (frame >= frames.count)  // For security
+            frame = frames.count - 1;
+        
+        float yOffset = [[frames objectAtIndex:frame] floatValue];
+        
+        // And lets set that
+        CGPoint position = self.barView.layer.position;
+        position.y = yOffset;
+        
+        // We want to disable the implicit animation
+        [CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        [self.barView.layer setPosition:position];
+        [CATransaction commit];
+        
+        // And... actually remove it.
+        [self.barView.layer removeAnimationForKey:key];
+    }
+}
+
+#pragma mark - Misc
+
+- (void)drawRect:(CGRect)rect {
+    
+}
+
+- (void)dealloc {
+	self.fadeOutTimer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)setFadeOutTimer:(NSTimer *)newTimer {
+    
+    if(fadeOutTimer)
+        [fadeOutTimer invalidate], fadeOutTimer = nil;
+    
+    if(newTimer)
+        fadeOutTimer = newTimer;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+	
+    if ((self = [super initWithFrame:frame])) {
+		self.userInteractionEnabled = NO;
+        self.backgroundColor = [UIColor clearColor];
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _isVisible = NO;
+    }
+	
+    return self;
+}
+
++ (ZAActivityBar *) sharedView {
+    static dispatch_once_t once;
+    static ZAActivityBar *sharedView;
+    dispatch_once(&once, ^ { sharedView = [[ZAActivityBar alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; });
+    return sharedView;
+}
 
 #pragma mark - Getters
+
+- (UILabel *)stringLabel {
+    if (stringLabel == nil) {
+        stringLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		stringLabel.textColor = [UIColor whiteColor];
+		stringLabel.backgroundColor = [UIColor clearColor];
+		stringLabel.adjustsFontSizeToFitWidth = YES;
+		stringLabel.textAlignment = UITextAlignmentLeft;
+		stringLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+		stringLabel.font = [UIFont boldSystemFontOfSize:14];
+		stringLabel.shadowColor = [UIColor blackColor];
+		stringLabel.shadowOffset = CGSizeMake(0, -1);
+        stringLabel.numberOfLines = 0;
+    }
+    
+    if(!stringLabel.superview)
+        [self.barView addSubview:stringLabel];
+    
+    return stringLabel;
+}
 
 - (UIWindow *)overlayWindow {
     if(!overlayWindow) {
