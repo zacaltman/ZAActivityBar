@@ -81,6 +81,12 @@ In this example, the `Loading Data` message will be shown until the data is load
 * If the images have loaded, the bar will be removed.
 * If the images are still loading, the `Loading Images` message will be shown, and when they have loaded, the bar will disappear from the screen.
 
+### How do I dismiss all actions?
+
+This is the catch all method:
+
+	[ZAActivityBar dismiss];
+
 ### How does it determine what to show?
 
 Pretty simple, first action in is the primary action. Everything else is queued up and ignored until the primary action is dismissed. Once the primary action is dismissed, the next item in the queue becomes the primary action.
