@@ -12,6 +12,8 @@
 #define ZA_ANIMATION_SHOW_KEY @"showAnimation"
 #define ZA_ANIMATION_DISMISS_KEY @"dismissAnimation"
 
+///////////////////////////////////////////////////////////////
+
 @interface ZAActivityAction : NSObject
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSString *status;
@@ -19,6 +21,8 @@
 
 @implementation ZAActivityAction
 @end
+
+///////////////////////////////////////////////////////////////
 
 @interface ZAActivityBar () {
     
@@ -42,6 +46,7 @@
 - (void) setStatus:(NSString*)string;
 - (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action;
 
+- (void) dismissAll;
 - (void) dismissForAction:(NSString *)action;
 
 @end
@@ -49,6 +54,8 @@
 @implementation ZAActivityBar
 
 @synthesize fadeOutTimer, overlayWindow, barView, stringLabel, spinnerView, imageView;
+
+///////////////////////////////////////////////////////////////
 
 #pragma mark - Action Methods
 
@@ -83,6 +90,7 @@
     a.status = status;
 
     [_actionDict setObject:a forKey:action];
+    
 }
 
 - (void) removeAction:(NSString *)action {
@@ -108,6 +116,8 @@
 - (BOOL) actionExists:(NSString *)action {
     return [_actionArray containsObject:action];
 }
+
+///////////////////////////////////////////////////////////////
 
 #pragma mark - Show Methods
 
@@ -141,16 +151,14 @@
         // Add the action
         [self addAction:action withStatus:status];
         
-        if (_isVisible) {
+        // Only continue if the action should be visible.
+        BOOL isPrimaryAction = [self isPrimaryAction:action];
+        if (!isPrimaryAction)
+            return;
 
-            // Only continue if the action should be visible.
-            BOOL isPrimaryAction = [self isPrimaryAction:action];
-            if (!isPrimaryAction)
-                return;
-
-            [self setStatus:status];
-            
-        } else {
+        [self setStatus:status];
+        
+        if (!_isVisible) {
             _isVisible = YES;
             
             // We want to remove the previous animations
@@ -186,7 +194,8 @@
 
 + (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/success.png"]
-                      status:status];
+                      status:status
+                   forAction:action];
 }
 
 + (void) showErrorWithStatus:(NSString *)status {
@@ -195,7 +204,8 @@
 
 + (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/error.png"]
-                      status:status];
+                      status:status
+                   forAction:action];
 }
 
 + (void)showImage:(UIImage *)image status:(NSString *)status {
@@ -210,6 +220,11 @@
 }
 
 - (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
+    
+    // Add the action if it doesn't exist yet
+    if (![self actionExists:action]) {
+        [self addAction:action withStatus:status];
+    }
     
     // Only continue if the action should be visible.
     BOOL isPrimaryAction = [self isPrimaryAction:action];
@@ -236,6 +251,8 @@
     });
 
 }
+
+///////////////////////////////////////////////////////////////
 
 #pragma mark - Property Methods
 
@@ -267,14 +284,32 @@
     return [[ZAActivityBar sharedView] isVisible];
 }
 
+///////////////////////////////////////////////////////////////
+
 #pragma mark - Dismiss Methods
 
 + (void) dismiss {
-    [ZAActivityBar dismissForAction:DEFAULT_ACTION];
+    [[ZAActivityBar sharedView] dismissAll];
 }
 
 + (void) dismissForAction:(NSString *)action {
 	[[ZAActivityBar sharedView] dismissForAction:action];
+}
+
+- (void) dismissAll {
+
+    for (int i = (_actionArray.count - 1); i >= 0; i--) {
+        NSString *action = [_actionArray objectAtIndex:i];
+        
+        // First item (visible one)
+        if (i == 0) {
+            [self dismissForAction:action];
+        }
+        // Non-visible items
+        else {
+            [self removeAction:action];
+        }
+    }
 }
 
 - (void) dismissForAction:(NSString *)action {
@@ -294,7 +329,7 @@
             
             // And just update the visual.
             if (primaryAction) {
-                [self setStatus:primaryAction.status];
+                [ZAActivityBar showWithStatus:primaryAction.status forAction:primaryAction.name];
                 return;
             }
             
@@ -350,6 +385,8 @@
     [ZAActivityBar dismissForAction:action];
 }
 
+///////////////////////////////////////////////////////////////
+
 #pragma mark - Helpers
 
 - (float) getOffscreenYPosition {
@@ -365,6 +402,8 @@
     rect.origin.y = yOffset;
     [self.barView setFrame:rect];
 }
+
+///////////////////////////////////////////////////////////////
 
 #pragma mark - Animation Methods / Helpers
 
@@ -406,6 +445,8 @@
     }
 }
 
+///////////////////////////////////////////////////////////////
+
 #pragma mark - Misc
 
 - (void)drawRect:(CGRect)rect {
@@ -446,6 +487,8 @@
     dispatch_once(&once, ^ { sharedView = [[ZAActivityBar alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; });
     return sharedView;
 }
+
+///////////////////////////////////////////////////////////////
 
 #pragma mark - Getters
 

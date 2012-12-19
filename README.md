@@ -2,19 +2,29 @@ _**If your project doesn't use ARC**: you must add the `-fobjc-arc` compiler fla
 
 # ZAActivityBar
 
-ZAActivityBar is an easy-to-use activity bar that's meant to non-intrusively display the progress of a task.
+ZAActivityBar is an easy-to-use queueable activity bar that's meant to non-intrusively display the progress of a task.
 
 ## Installation
 
 * Drag the `ZAActivityBar` folder into your project.
-* Drag `SKBounceAnimation.h` and `SKBounceAnimation.h` files into your project (found in `External/SKBounceAnimation/SKBounceAnimation`)
+* Drag `SKBounceAnimation.h` and `SKBounceAnimation.m` files into your project (found in `External/SKBounceAnimation/SKBounceAnimation`)
 * Add the **QuartzCore** framework to your project.
 
 ## Video
 
-[Link to Video](https://www.dropbox.com/s/bwv8z9u595ehngi/ZAActivityBar.mov)
+[Basic Use](https://www.dropbox.com/s/bwv8z9u595ehngi/ZAActivityBar.mov)
 
-## How to Use
+[Advanced Use (Queuing)](https://www.dropbox.com/s/g1ka7j90z81jgjr/ZAActivityBarQueue.mov)
+
+[Fast Updating Data](https://www.dropbox.com/s/0b9h8cfrcfgtweo/ZAActivityBarFastUpdating.mov) - updated every 0.01 seconds
+
+## Notes
+* ZAActivityBar is completely thread safe.
+* ZAActivityBar has been tested on iOS5 and iOS6.
+* When using 'showWithStatus:' you will need to dismiss the bar either by calling 'dismiss' or showing an error or success message.
+* ZAActivityBar is screen independent. That is, if you switch screens via any means the bar will remain on screen.
+
+## Basic Use
 
 _It's quite easy_
 
@@ -31,11 +41,52 @@ Dismiss the indicator
 
     [ZAActivityBar dismiss];
     
-Notes:
-* ZAActivityBar is completely thread safe.
-* ZAActivityBar has been tested on iOS5 and iOS6.
-* When using 'showWithStatus:' you will need to dismiss the bar either by calling 'dismiss' or showing an error or success message.
-* ZAActivityBar is screen independent. That is, if you switch screens via any means the bar will remain on screen.
+## Advanced Use (Queuing)
+
+You can add actions to a display queue. This means that you could have several async actions going on and independently set the actions for each and `ZAActivityBar` will handle what the user sees for you. No more disappearing bars or annoying dependencies!
+
+Here's the absolute basics for you:
+
+	#define DATA_ACTION @"DataAction"
+	#define IMAGE_ACTION @"ImageAction"
+	
+	- (void) loadEverything {
+		[self loadDataAsync];
+		[self loadImagesAsync];
+	}
+	
+	- (void) loadDataAsync {
+		
+		// Dispatch into a thread here
+		
+		[ZAActivityBar showWithStatus:@"Loading Data" forAction:DATA_ACTION];
+		
+		// Load here
+		
+	    [ZAActivityBar showSuccessWithStatus:@"Data Loaded!" forAction:DATA_ACTION];
+	}
+	
+	- (void) loadImagesAsync {
+	
+		// Dispatch into a thread here
+		
+		[ZAActivityBar showWithStatus:@"Loading Images" forAction:IMAGE_ACTION];
+		
+		// Load here
+		
+		[ZAActivityBar dismissForAction:DATA_ACTION];
+	}
+	
+In this example, the `Loading Data` message will be shown until the data is loaded, then the `Data Loaded!` success message will be shown. Then...
+* If the images have loaded, the bar will be removed.
+* If the images are still loading, the `Loading Images` message will be shown, and when they have loaded, the bar will disappear from the screen.
+
+### How does it determine what to show?
+
+Pretty simple, first action in is the primary action. Everything else is queued up and ignored until the primary action is dismissed. Once the primary action is dismissed, the next item in the queue becomes the primary action.
+
+### Can I change the order or set items have a higher priority?
+_No_
 
 ## Credits
 

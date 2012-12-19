@@ -27,6 +27,10 @@
 
 @interface ZAActivityBar : UIView
 
+///////////////////////////////////////////////////////////////////////
+
+// Basic use
+
 + (void) show;
 + (void) dismiss;
 
@@ -35,6 +39,10 @@
 + (void) showErrorWithStatus:(NSString *)status;
 + (void) showImage:(UIImage *)image status:(NSString *)status;
 
+///////////////////////////////////////////////////////////////////////
+
+// Advanced Use
+
 + (void) showForAction:(NSString *)action;
 + (void) dismissForAction:(NSString *)action;
 
@@ -42,5 +50,7 @@
 + (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action;
 + (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action;
 + (void) showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action;
+
+///////////////////////////////////////////////////////////////////////
 
 @end

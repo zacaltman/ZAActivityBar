@@ -10,6 +10,10 @@
 
 @interface ViewController : UIViewController <UITextFieldDelegate> {
     __weak IBOutlet UITextField *_textbox;
+    
+    __weak IBOutlet UILabel *_actionLabel1;
+    __weak IBOutlet UILabel *_actionLabel2;
+    __weak IBOutlet UILabel *_actionLabel3;
 }
 
 // Action Methods
@@ -17,5 +21,6 @@
 - (IBAction) showSuccess:(id)sender;
 - (IBAction) showError:(id)sender;
 - (IBAction) dismiss:(id)sender;
+- (IBAction) dismissAll:(id)sender;
 
 @end
