@@ -6,8 +6,8 @@ ZAActivityBar is an easy-to-use activity bar that's meant to non-intrusively dis
 
 ## Installation
 
-* Drag the `ZAActivityBar` folder into your project.
-* Drag the `External` folder into your project (If you do not have them yet).
+* Drag the 'ZAActivityBar' folder into your project.
+* Drag 'SKBounceAnimation.h' and 'SKBounceAnimation.h' files into your project (found in 'External/SKBounceAnimation/SKBounceAnimation')
 * Add the **QuartzCore** framework to your project.
 
 ## Video
