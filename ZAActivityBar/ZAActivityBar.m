@@ -12,7 +12,22 @@
 #define ZA_ANIMATION_SHOW_KEY @"showAnimation"
 #define ZA_ANIMATION_DISMISS_KEY @"dismissAnimation"
 
-@interface ZAActivityBar ();
+@interface ZAActivityAction : NSObject
+@property (nonatomic,strong) NSString *name;
+@property (nonatomic,strong) NSString *status;
+@end
+
+@implementation ZAActivityAction
+@end
+
+@interface ZAActivityBar () {
+    
+    // Why use a dictionary and an array?
+    // We need order as well as reference data, so they work together.
+    
+    NSMutableArray *_actionArray;
+    NSMutableDictionary *_actionDict;
+}
 
 @property BOOL isVisible;
 
@@ -23,11 +38,11 @@
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *spinnerView;
 @property (nonatomic, strong, readonly) UIImageView *imageView;
 
-- (void) showWithStatus:(NSString *)status;
+- (void) showWithStatus:(NSString *)status forAction:(NSString *)action;
 - (void) setStatus:(NSString*)string;
-- (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration;
+- (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action;
 
-- (void) dismiss;
+- (void) dismissForAction:(NSString *)action;
 
 @end
 
@@ -35,17 +50,84 @@
 
 @synthesize fadeOutTimer, overlayWindow, barView, stringLabel, spinnerView, imageView;
 
+#pragma mark - Action Methods
+
+- (ZAActivityAction *) getPrimaryAction {
+    
+    if (_actionArray.count == 0)
+        return nil;
+    
+    NSString *action = [_actionArray objectAtIndex:0];
+    return [self getAction:action];
+    
+}
+
+- (ZAActivityAction *) getAction:(NSString *)action {
+    
+    if (![self actionExists:action])
+        return nil;
+
+    return [_actionDict objectForKey:action];
+}
+
+- (void) addAction:(NSString *)action withStatus:(NSString *)status {
+
+    ZAActivityAction *a = [self getAction:action];
+    
+    if (!a) {
+        [_actionArray addObject:action];
+        a = [ZAActivityAction new];
+        a.name = action;
+    }
+
+    a.status = status;
+
+    [_actionDict setObject:a forKey:action];
+}
+
+- (void) removeAction:(NSString *)action {
+
+    if (![self actionExists:action])
+        return;
+
+    [_actionDict removeObjectForKey:action];
+    [_actionArray removeObject:action];
+
+}
+
+- (BOOL) isPrimaryAction:(NSString *)action {
+
+    if (![self actionExists:action])
+        return NO;
+    
+    NSUInteger index = [_actionArray indexOfObject:action];
+    return index == 0;
+    
+}
+
+- (BOOL) actionExists:(NSString *)action {
+    return [_actionArray containsObject:action];
+}
+
 #pragma mark - Show Methods
 
 + (void) showWithStatus:(NSString *)status {
-    [[ZAActivityBar sharedView] showWithStatus:status];
+    [ZAActivityBar showWithStatus:status forAction:DEFAULT_ACTION];
+}
+
++ (void) showWithStatus:(NSString *)status forAction:(NSString *)action {
+    [[ZAActivityBar sharedView] showWithStatus:status forAction:action];
 }
 
 + (void) show {
-    [[ZAActivityBar sharedView] showWithStatus:nil];
+    [ZAActivityBar showForAction:DEFAULT_ACTION];
 }
 
-- (void) showWithStatus:(NSString *)status {
++ (void) showForAction:(NSString *)action {
+    [[ZAActivityBar sharedView] showWithStatus:nil forAction:action];
+}
+
+- (void) showWithStatus:(NSString *)status forAction:(NSString *)action {
     dispatch_async(dispatch_get_main_queue(), ^{
         if(!self.superview)
             [self.overlayWindow addSubview:self];
@@ -54,13 +136,23 @@
         self.imageView.hidden = YES;
 
         [self.overlayWindow setHidden:NO];
-        [self setStatus:status];
         [self.spinnerView startAnimating];
 
+        // Add the action
+        [self addAction:action withStatus:status];
         
-        if (!_isVisible) {
-            _isVisible = YES;
+        if (_isVisible) {
 
+            // Only continue if the action should be visible.
+            BOOL isPrimaryAction = [self isPrimaryAction:action];
+            if (!isPrimaryAction)
+                return;
+
+            [self setStatus:status];
+            
+        } else {
+            _isVisible = YES;
+            
             // We want to remove the previous animations
             [self removeAnimationForKey:ZA_ANIMATION_DISMISS_KEY];
 
@@ -89,27 +181,48 @@
 }
 
 + (void) showSuccessWithStatus:(NSString *)status {
+    [ZAActivityBar showSuccessWithStatus:status forAction:DEFAULT_ACTION];
+}
+
++ (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/success.png"]
                       status:status];
 }
 
 + (void) showErrorWithStatus:(NSString *)status {
+    [ZAActivityBar showErrorWithStatus:status forAction:DEFAULT_ACTION];
+}
+
++ (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/error.png"]
                       status:status];
 }
 
 + (void)showImage:(UIImage *)image status:(NSString *)status {
-    [[ZAActivityBar sharedView] showImage:image
-                                   status:status
-                                 duration:1.0];
+    [ZAActivityBar showImage:image status:status forAction:DEFAULT_ACTION];
 }
 
-- (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration {
++ (void)showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action {
+    [[ZAActivityBar sharedView] showImage:image
+                                   status:status
+                                 duration:1.0
+                                forAction:action];
+}
+
+- (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
+    
+    // Only continue if the action should be visible.
+    BOOL isPrimaryAction = [self isPrimaryAction:action];
+    if (!isPrimaryAction) {
+        [self removeAction:action];
+        return;
+    }
     
     if(![ZAActivityBar isVisible])
-        [ZAActivityBar show];
+        [ZAActivityBar showForAction:action];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+
         self.imageView.image = image;
         self.imageView.hidden = NO;
         [self setStatus:status];
@@ -117,8 +230,8 @@
         
         self.fadeOutTimer = [NSTimer scheduledTimerWithTimeInterval:duration
                                                              target:self
-                                                           selector:@selector(dismiss)
-                                                           userInfo:nil
+                                                           selector:@selector(dismissFromTimer:)
+                                                           userInfo:action
                                                             repeats:NO];
     });
 
@@ -157,12 +270,40 @@
 #pragma mark - Dismiss Methods
 
 + (void) dismiss {
-	[[ZAActivityBar sharedView] dismiss];
+    [ZAActivityBar dismissForAction:DEFAULT_ACTION];
 }
 
-- (void) dismiss {
++ (void) dismissForAction:(NSString *)action {
+	[[ZAActivityBar sharedView] dismissForAction:action];
+}
+
+- (void) dismissForAction:(NSString *)action {
     dispatch_async(dispatch_get_main_queue(), ^{
         
+        // Check if the action is on the screen
+        BOOL onScreen = [self isPrimaryAction:action];
+        
+        // Remove the action
+        [self removeAction:action];
+
+        // If this is the currently visible action, then let's do some magic
+        if (onScreen) {
+            
+            // Let's get the new primary action
+            ZAActivityAction *primaryAction = [self getPrimaryAction];
+            
+            // And just update the visual.
+            if (primaryAction) {
+                [self setStatus:primaryAction.status];
+                return;
+            }
+            
+        }
+        // If it's not visible, don't continue.
+        else {
+            return;
+        }
+
         if (_isVisible) {
             _isVisible = NO;
             
@@ -202,6 +343,11 @@
             [self.barView.layer setPosition:position];
         }
     });
+}
+
+- (void) dismissFromTimer:(NSTimer *)timer {
+    NSString *action = timer.userInfo;
+    [ZAActivityBar dismissForAction:action];
 }
 
 #pragma mark - Helpers
@@ -287,6 +433,8 @@
         self.backgroundColor = [UIColor clearColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _isVisible = NO;
+        _actionArray = [NSMutableArray new];
+        _actionDict = [NSMutableDictionary new];
     }
 	
     return self;

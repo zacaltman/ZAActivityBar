@@ -16,24 +16,34 @@
 #pragma mark -
 #pragma mark Action Methods
 
+- (NSString *) actionForSender:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    NSString *action = [NSString stringWithFormat:@"Action%i",button.tag];
+    return action;
+}
+
 - (IBAction) show:(id)sender {
     [self dismissTextField];
-    [ZAActivityBar showWithStatus:_textbox.text];
+    NSString *action = [self actionForSender:sender];
+    [ZAActivityBar showWithStatus:_textbox.text forAction:action];
 }
 
 - (IBAction) showSuccess:(id)sender {
     [self dismissTextField];
-    [ZAActivityBar showSuccessWithStatus:_textbox.text];
+    NSString *action = [self actionForSender:sender];
+    [ZAActivityBar showSuccessWithStatus:_textbox.text forAction:action];
 }
 
 - (IBAction) showError:(id)sender {
     [self dismissTextField];
-    [ZAActivityBar showErrorWithStatus:_textbox.text];
+    NSString *action = [self actionForSender:sender];
+    [ZAActivityBar showErrorWithStatus:_textbox.text forAction:action];
 }
 
 - (IBAction) dismiss:(id)sender {
     [self dismissTextField];
-    [ZAActivityBar dismiss];
+    NSString *action = [self actionForSender:sender];
+    [ZAActivityBar dismissForAction:action];
 }
 
 ///////////////////////////////////////////////////////////////

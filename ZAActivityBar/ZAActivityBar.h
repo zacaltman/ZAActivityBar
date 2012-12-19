@@ -23,6 +23,7 @@
 // Best not to change these
 #define SPINNER_SIZE 24.0f
 #define ICON_OFFSET (HEIGHT - SPINNER_SIZE) / 2.0f
+#define DEFAULT_ACTION @"defaultAction"
 
 @interface ZAActivityBar : UIView
 
@@ -33,5 +34,13 @@
 + (void) showSuccessWithStatus:(NSString *)status;
 + (void) showErrorWithStatus:(NSString *)status;
 + (void) showImage:(UIImage *)image status:(NSString *)status;
+
++ (void) showForAction:(NSString *)action;
++ (void) dismissForAction:(NSString *)action;
+
++ (void) showWithStatus:(NSString *)status forAction:(NSString *)action;
++ (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action;
++ (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action;
++ (void) showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action;
 
 @end
