@@ -6,7 +6,7 @@ ZAActivityBar is an easy-to-use activity bar that's meant to non-intrusively dis
 
 ## Installation
 
-* Drag the `ZAProgressBar` folder into your project.
+* Drag the `ZAActivityBar` folder into your project.
 * Drag the `External` folder into your project (If you do not have them yet).
 * Add the **QuartzCore** framework to your project.
 
