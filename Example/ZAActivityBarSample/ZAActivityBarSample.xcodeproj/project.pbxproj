@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		895C23541680758D001BDF61 /* SKBounceAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895C23531680758D001BDF61 /* SKBounceAnimation.m */; };
 		895C235616807892001BDF61 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895C235516807892001BDF61 /* QuartzCore.framework */; };
+		898460D416814409003B503D /* ZAActivityBar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 898460D116814409003B503D /* ZAActivityBar.bundle */; };
+		898460D516814409003B503D /* ZAActivityBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 898460D316814409003B503D /* ZAActivityBar.m */; };
 		89E3B01816759B180063C5ED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01716759B180063C5ED /* UIKit.framework */; };
 		89E3B01A16759B180063C5ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01916759B180063C5ED /* Foundation.framework */; };
 		89E3B01C16759B180063C5ED /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01B16759B180063C5ED /* CoreGraphics.framework */; };
@@ -20,14 +22,15 @@
 		89E3B02E16759B180063C5ED /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B02D16759B180063C5ED /* Default-568h@2x.png */; };
 		89E3B03116759B180063C5ED /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3B03016759B180063C5ED /* ViewController.m */; };
 		89E3B03416759B180063C5ED /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B03216759B180063C5ED /* ViewController.xib */; };
-		89E3B03E16759B410063C5ED /* ZAActivityBar.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 89E3B03B16759B410063C5ED /* ZAActivityBar.bundle */; };
-		89E3B03F16759B410063C5ED /* ZAActivityBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3B03D16759B410063C5ED /* ZAActivityBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		895C23521680758D001BDF61 /* SKBounceAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKBounceAnimation.h; path = ../../../External/SKBounceAnimation/SKBounceAnimation/SKBounceAnimation.h; sourceTree = "<group>"; };
 		895C23531680758D001BDF61 /* SKBounceAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKBounceAnimation.m; path = ../../../External/SKBounceAnimation/SKBounceAnimation/SKBounceAnimation.m; sourceTree = "<group>"; };
 		895C235516807892001BDF61 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		898460D116814409003B503D /* ZAActivityBar.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZAActivityBar.bundle; sourceTree = "<group>"; };
+		898460D216814409003B503D /* ZAActivityBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAActivityBar.h; sourceTree = "<group>"; };
+		898460D316814409003B503D /* ZAActivityBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAActivityBar.m; sourceTree = "<group>"; };
 		89E3B01316759B180063C5ED /* ZAActivityBarSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZAActivityBarSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E3B01716759B180063C5ED /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89E3B01916759B180063C5ED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -44,9 +47,6 @@
 		89E3B02F16759B180063C5ED /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		89E3B03016759B180063C5ED /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		89E3B03316759B180063C5ED /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
-		89E3B03B16759B410063C5ED /* ZAActivityBar.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ZAActivityBar.bundle; path = ../../../ZAActivityBar.bundle; sourceTree = "<group>"; };
-		89E3B03C16759B410063C5ED /* ZAActivityBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZAActivityBar.h; path = ../../../ZAActivityBar.h; sourceTree = "<group>"; };
-		89E3B03D16759B410063C5ED /* ZAActivityBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZAActivityBar.m; path = ../../../ZAActivityBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +71,17 @@
 				895C23531680758D001BDF61 /* SKBounceAnimation.m */,
 			);
 			name = SKBounceAnimation;
+			sourceTree = "<group>";
+		};
+		898460D016814409003B503D /* ZAActivityBar */ = {
+			isa = PBXGroup;
+			children = (
+				898460D116814409003B503D /* ZAActivityBar.bundle */,
+				898460D216814409003B503D /* ZAActivityBar.h */,
+				898460D316814409003B503D /* ZAActivityBar.m */,
+			);
+			name = ZAActivityBar;
+			path = ../../../ZAActivityBar;
 			sourceTree = "<group>";
 		};
 		89E3B00816759B180063C5ED = {
@@ -104,8 +115,8 @@
 		89E3B01D16759B180063C5ED /* ZAActivityBarSample */ = {
 			isa = PBXGroup;
 			children = (
+				898460D016814409003B503D /* ZAActivityBar */,
 				895C23501680757E001BDF61 /* SKBounceAnimation */,
-				89E3B03A16759B2F0063C5ED /* ZAActivityBar */,
 				89E3B02616759B180063C5ED /* AppDelegate.h */,
 				89E3B02716759B180063C5ED /* AppDelegate.m */,
 				89E3B02F16759B180063C5ED /* ViewController.h */,
@@ -128,16 +139,6 @@
 				89E3B02D16759B180063C5ED /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		89E3B03A16759B2F0063C5ED /* ZAActivityBar */ = {
-			isa = PBXGroup;
-			children = (
-				89E3B03B16759B410063C5ED /* ZAActivityBar.bundle */,
-				89E3B03C16759B410063C5ED /* ZAActivityBar.h */,
-				89E3B03D16759B410063C5ED /* ZAActivityBar.m */,
-			);
-			name = ZAActivityBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,7 +197,7 @@
 				89E3B02C16759B180063C5ED /* Default@2x.png in Resources */,
 				89E3B02E16759B180063C5ED /* Default-568h@2x.png in Resources */,
 				89E3B03416759B180063C5ED /* ViewController.xib in Resources */,
-				89E3B03E16759B410063C5ED /* ZAActivityBar.bundle in Resources */,
+				898460D416814409003B503D /* ZAActivityBar.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,8 +211,8 @@
 				89E3B02416759B180063C5ED /* main.m in Sources */,
 				89E3B02816759B180063C5ED /* AppDelegate.m in Sources */,
 				89E3B03116759B180063C5ED /* ViewController.m in Sources */,
-				89E3B03F16759B410063C5ED /* ZAActivityBar.m in Sources */,
 				895C23541680758D001BDF61 /* SKBounceAnimation.m in Sources */,
+				898460D516814409003B503D /* ZAActivityBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
