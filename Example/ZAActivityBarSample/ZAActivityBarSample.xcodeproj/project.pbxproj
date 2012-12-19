@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		895C23541680758D001BDF61 /* SKBounceAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 895C23531680758D001BDF61 /* SKBounceAnimation.m */; };
+		895C235616807892001BDF61 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895C235516807892001BDF61 /* QuartzCore.framework */; };
 		89E3B01816759B180063C5ED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01716759B180063C5ED /* UIKit.framework */; };
 		89E3B01A16759B180063C5ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01916759B180063C5ED /* Foundation.framework */; };
 		89E3B01C16759B180063C5ED /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E3B01B16759B180063C5ED /* CoreGraphics.framework */; };
@@ -23,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		895C23521680758D001BDF61 /* SKBounceAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKBounceAnimation.h; path = ../../../External/SKBounceAnimation/SKBounceAnimation/SKBounceAnimation.h; sourceTree = "<group>"; };
+		895C23531680758D001BDF61 /* SKBounceAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKBounceAnimation.m; path = ../../../External/SKBounceAnimation/SKBounceAnimation/SKBounceAnimation.m; sourceTree = "<group>"; };
+		895C235516807892001BDF61 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		89E3B01316759B180063C5ED /* ZAActivityBarSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZAActivityBarSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E3B01716759B180063C5ED /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89E3B01916759B180063C5ED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -49,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				895C235616807892001BDF61 /* QuartzCore.framework in Frameworks */,
 				89E3B01816759B180063C5ED /* UIKit.framework in Frameworks */,
 				89E3B01A16759B180063C5ED /* Foundation.framework in Frameworks */,
 				89E3B01C16759B180063C5ED /* CoreGraphics.framework in Frameworks */,
@@ -58,6 +64,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		895C23501680757E001BDF61 /* SKBounceAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				895C23521680758D001BDF61 /* SKBounceAnimation.h */,
+				895C23531680758D001BDF61 /* SKBounceAnimation.m */,
+			);
+			name = SKBounceAnimation;
+			sourceTree = "<group>";
+		};
 		89E3B00816759B180063C5ED = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +93,7 @@
 		89E3B01616759B180063C5ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				895C235516807892001BDF61 /* QuartzCore.framework */,
 				89E3B01716759B180063C5ED /* UIKit.framework */,
 				89E3B01916759B180063C5ED /* Foundation.framework */,
 				89E3B01B16759B180063C5ED /* CoreGraphics.framework */,
@@ -88,6 +104,7 @@
 		89E3B01D16759B180063C5ED /* ZAActivityBarSample */ = {
 			isa = PBXGroup;
 			children = (
+				895C23501680757E001BDF61 /* SKBounceAnimation */,
 				89E3B03A16759B2F0063C5ED /* ZAActivityBar */,
 				89E3B02616759B180063C5ED /* AppDelegate.h */,
 				89E3B02716759B180063C5ED /* AppDelegate.m */,
@@ -194,6 +211,7 @@
 				89E3B02816759B180063C5ED /* AppDelegate.m in Sources */,
 				89E3B03116759B180063C5ED /* ViewController.m in Sources */,
 				89E3B03F16759B410063C5ED /* ZAActivityBar.m in Sources */,
+				895C23541680758D001BDF61 /* SKBounceAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +328,7 @@
 				89E3B03916759B180063C5ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

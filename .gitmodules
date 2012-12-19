@@ -1,0 +1,3 @@
+[submodule "External/SKBounceAnimation"]
+	path = External/SKBounceAnimation
+	url = https://github.com/khanlou/SKBounceAnimation.git

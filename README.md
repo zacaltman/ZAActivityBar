@@ -7,6 +7,7 @@ ZAActivityBar is an easy-to-use activity bar that's meant to non-intrusively dis
 ## Installation
 
 * Drag the `ZAProgressBar` folder into your project.
+* Drag the `External` folder into your project (If you do not have them yet).
 * Add the **QuartzCore** framework to your project.
 
 ## Video
@@ -32,9 +33,10 @@ Dismiss the indicator
     
 Notes:
 * ZAActivityBar is completely thread safe.
+* ZAActivityBar has been tested on iOS5 and iOS6.
 * When using 'showWithStatus:' you will need to dismiss the bar either by calling 'dismiss' or showing an error or success message.
 * ZAActivityBar is screen independent. That is, if you switch screens via any means the bar will remain on screen.
 
 ## Credits
 
-ZAActivityBar is brought to you by [Zac Altman](https://github.com/zacaltman). It was heavily influenced by [SVProgressHUD](https://raw.github.com/samvermette/SVProgressHUD) by [Sam Vermette](http://samvermette.com). The success and error icons are from [Pictos](http://pictos.cc/). If you have feature suggestions or bug reports, feel free to help out by sending pull requests or by [creating new issues](https://github.com/zacaltman/ZAActivityBar/issues/new). If you're using ZAActivityBar in your project, attribution would be nice.
+ZAActivityBar is brought to you by [Zac Altman](https://github.com/zacaltman). It was heavily influenced by [SVProgressHUD](https://raw.github.com/samvermette/SVProgressHUD) by [Sam Vermette](http://samvermette.com). The success and error icons are from [Pictos](http://pictos.cc/). The bounce animation was masterfully crafted by [Soroush Khanlou](http://khanlou.com/) and can be found here: [ZKBounceAnimation](https://github.com/khanlou/SKBounceAnimation). If you have feature suggestions or bug reports, feel free to help out by sending pull requests or by [creating new issues](https://github.com/zacaltman/ZAActivityBar/issues/new). If you're using ZAActivityBar in your project, attribution would be nice.

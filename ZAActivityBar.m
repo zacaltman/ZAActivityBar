@@ -7,11 +7,16 @@
 
 #import "ZAActivityBar.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SKBounceAnimation.h"
 
-@interface ZAActivityBar ()
+#define ZA_ANIMATION_SHOW_KEY @"showAnimation"
+#define ZA_ANIMATION_DISMISS_KEY @"dismissAnimation"
+
+@interface ZAActivityBar ();
+
+@property BOOL isVisible;
 
 @property (nonatomic, strong, readonly) NSTimer *fadeOutTimer;
-
 @property (nonatomic, strong, readonly) UIWindow *overlayWindow;
 @property (nonatomic, strong, readonly) UIView *barView;
 @property (nonatomic, strong, readonly) UILabel *stringLabel;
@@ -49,8 +54,8 @@
     if ((self = [super initWithFrame:frame])) {
 		self.userInteractionEnabled = NO;
         self.backgroundColor = [UIColor clearColor];
-		self.alpha = 0;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _isVisible = NO;
     }
 	
     return self;
@@ -83,31 +88,36 @@
         [self setStatus:status];
         [self.spinnerView startAnimating];
 
-        if (self.alpha != 1.0f) {
-            [self positionBarOffscreen];
-            [UIView animateWithDuration:0.3
-                                  delay:0
-                                options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
-                             animations:^{
-                                 [self setYOffset:self.frame.size.height - (HEIGHT + PADDING) - 7];
-                                 self.alpha = 1;
-                             } completion:^(BOOL finished) {
-                                 if (finished) {
-                                     [UIView animateWithDuration:0.1
-                                                           delay:0.0f
-                                                         options:UIViewAnimationCurveLinear
-                                                      animations:^{
-                                                          [self positionBar];
-                                                      } completion:nil];
-                                 }
-                             }];
+        
+        if (!_isVisible) {
+            _isVisible = YES;
 
+            // We want to remove the previous animations
+            [self removeAnimationForKey:ZA_ANIMATION_DISMISS_KEY];
+
+            NSString *bounceKeypath = @"position.y";
+            id bounceOrigin = [NSNumber numberWithFloat:self.barView.layer.position.y];
+            id bounceFinalValue = [NSNumber numberWithFloat:[self getBarYPosition]];
+            
+            SKBounceAnimation *bounceAnimation = [SKBounceAnimation animationWithKeyPath:bounceKeypath];
+            bounceAnimation.fromValue = bounceOrigin;
+            bounceAnimation.toValue = bounceFinalValue;
+            bounceAnimation.shouldOvershoot = YES;
+            bounceAnimation.numberOfBounces = 4;
+            bounceAnimation.delegate = self;
+            bounceAnimation.removedOnCompletion = YES;
+            bounceAnimation.duration = 0.7f;
+            
+            [self.barView.layer addAnimation:bounceAnimation forKey:@"showAnimation"];
+            
+            CGPoint position = self.barView.layer.position;
+            position.y = [bounceFinalValue floatValue];
+            [self.barView.layer setPosition:position];
+            
         }
         
-        [self setNeedsDisplay];
     });
 }
-
 
 + (void) showSuccessWithStatus:(NSString *)status {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/success.png"]
@@ -146,7 +156,7 @@
 }
 
 + (BOOL)isVisible {
-    return ([ZAActivityBar sharedView].alpha == 1);
+    return [[ZAActivityBar sharedView] isVisible];
 }
 
 
@@ -207,18 +217,18 @@
     return stringLabel;
 }
 
-- (void) positionBarOffscreen {
-    [self setYOffset:self.frame.size.height + (HEIGHT + PADDING)];
+- (float) getOffscreenYPosition {
+    return self.frame.size.height + ((HEIGHT / 2) + PADDING);
 }
 
-- (void) positionBar {
-    [self setYOffset:self.frame.size.height - (HEIGHT + PADDING)];
+- (float) getBarYPosition {
+    return self.frame.size.height - ((HEIGHT / 2) + PADDING) - BOTTOM_OFFSET;
 }
 
 - (void) setYOffset:(float)yOffset {
     CGRect rect = self.barView.frame;
     rect.origin.y = yOffset;
-    [self.barView setFrame:rect];    
+    [self.barView setFrame:rect];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -229,40 +239,85 @@
 	[[ZAActivityBar sharedView] dismiss];
 }
 
+// For some reason the SKBounceAnimation isn't removed if this method
+// doesn't exist... Why?
+- (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+}
+
+- (void) removeAnimationForKey:(NSString *)key {
+    if ([self.barView.layer.animationKeys containsObject:key]) {
+        CAAnimation *anim = [self.barView.layer animationForKey:key];
+        
+        // Find out how far into the animation we made it
+        CFTimeInterval startTime = [[anim valueForKey:@"beginTime"] floatValue];
+        CFTimeInterval pausedTime = [self.barView.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+        float diff = pausedTime - startTime;
+        
+        // We only need a ~rough~ frame, so it doesn't jump to the end position
+        // and stays as close to in place as possible.
+        int frame = (diff * 58.57 - 1); // 58fps?
+        NSArray *frames = [anim valueForKey:@"values"];
+        if (frame >= frames.count)  // For security
+            frame = frames.count - 1;
+        
+        float yOffset = [[frames objectAtIndex:frame] floatValue];
+        
+        // And lets set that
+        CGPoint position = self.barView.layer.position;
+        position.y = yOffset;
+        
+        // We want to disable the implicit animation
+        [CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        [self.barView.layer setPosition:position];
+        [CATransaction commit];
+        
+        // And... actually remove it.
+        [self.barView.layer removeAnimationForKey:key];
+    }
+}
+
 - (void) dismiss {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.15
-                              delay:0
-                            options:UIViewAnimationCurveEaseOut | UIViewAnimationOptionAllowUserInteraction
-                         animations:^{
-                            float yOffset = self.barView.frame.origin.y - 4;
-                            [self setYOffset:yOffset];
-                         }completion:^(BOOL finished) {
-                             if (finished) {
-                                 [UIView animateWithDuration:0.25
-                                                       delay:0
-                                                     options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
-                                                  animations:^{
-                                                      [self positionBarOffscreen];
-                                                      self.alpha = 0;
-                                                  }
-                                                  completion:^(BOOL finished){
-                                                      if(self.alpha == 0) {
-                                                          [[NSNotificationCenter defaultCenter] removeObserver:self];
-                                                          [barView removeFromSuperview];
-                                                          barView = nil;
-                                                          
-                                                          [overlayWindow removeFromSuperview];
-                                                          overlayWindow = nil;
-                                                          
-                                                          // uncomment to make sure UIWindow is gone from app.windows
-                                                          //NSLog(@"%@", [UIApplication sharedApplication].windows);
-                                                          //NSLog(@"keyWindow = %@", [UIApplication sharedApplication].keyWindow);
-                                                      }
-                                                  }];
+        
+        if (_isVisible) {
+            _isVisible = NO;
+            
+            // If the animation is midway through, we want it to drop immediately
+            BOOL shouldDrop = [self.barView.layer.animationKeys containsObject:ZA_ANIMATION_SHOW_KEY];
 
-                             }
-                         }];
+            // We want to remove the previous animations
+            [self removeAnimationForKey:ZA_ANIMATION_SHOW_KEY];
+            
+            // Setup the animation values
+            NSString *keypath = @"position.y";
+            id currentValue = [NSNumber numberWithFloat:self.barView.layer.position.y];
+            id midValue = [NSNumber numberWithFloat:self.barView.layer.position.y - 7];
+            id finalValue = [NSNumber numberWithFloat:[self getOffscreenYPosition]];
+            
+            CAMediaTimingFunction *function = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+            NSArray *keyTimes = (shouldDrop ? @[@0.0,@0.3] : @[@0.0,@0.3,@0.5]);
+            NSArray *values = (shouldDrop ? @[currentValue,finalValue] : @[currentValue,midValue,finalValue]);
+            NSArray *timingFunctions = (shouldDrop ? @[function, function] : @[function, function, function]);
+            
+            // Get the duration. So we don't have to manually set it, this defaults to the final value in the animation keys.
+            float duration = [[keyTimes objectAtIndex:(keyTimes.count - 1)] floatValue];
+            
+            // Perform the animation
+            CAKeyframeAnimation *frameAnimation = [CAKeyframeAnimation animationWithKeyPath:keypath];
+//            [frameAnimation setCalculationMode:kCAAnimationLinear]; Defaults to Linear.
+            [frameAnimation setKeyTimes:keyTimes];
+            [frameAnimation setValues:values];
+            [frameAnimation setTimingFunctions:timingFunctions];
+            [frameAnimation setDuration:duration];
+            [frameAnimation setRemovedOnCompletion:YES];
+            
+            [self.barView.layer addAnimation:frameAnimation forKey:ZA_ANIMATION_DISMISS_KEY];
+            
+            CGPoint position = self.barView.layer.position;
+            position.y = [finalValue floatValue];
+            [self.barView.layer setPosition:position];
+        }
     });
 }
 
@@ -283,10 +338,11 @@
     if(!barView) {
         CGRect rect = CGRectMake(PADDING, FLT_MAX, self.frame.size.width, HEIGHT);
         rect.size.width -= 2 * PADDING;
+        rect.origin.y = [self getOffscreenYPosition];
         barView = [[UIView alloc] initWithFrame:rect];
         barView.layer.cornerRadius = 6;
-		barView.backgroundColor = BORDER_COLOR;//[UIColor colorWithWhite:1 alpha:0.8];
-        barView.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);        
+		barView.backgroundColor = BAR_COLOR;
+        barView.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
         [self addSubview:barView];
     }
     return barView;

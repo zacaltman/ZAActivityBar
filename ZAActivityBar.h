@@ -11,13 +11,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AvailabilityMacros.h>
 
-#define BORDER_COLOR [[UIColor blackColor] colorWithAlphaComponent:0.8f]
-#define BORDER_WIDTH 1.0f
+// This allows you to offet the position of the indicator. 49.0f for Tab Bars.
+#define BOTTOM_OFFSET 0.0f
+
+// Visual Properties
+#define BAR_COLOR [[UIColor blackColor] colorWithAlphaComponent:0.8f]
 #define HEIGHT 40.0f
 #define PADDING 10.0f
-#define ANIMATION_DURATION 0.3f
+
+// Best not to change these
 #define SPINNER_SIZE 24.0f
 #define ICON_OFFSET (HEIGHT - SPINNER_SIZE) / 2.0f
 
