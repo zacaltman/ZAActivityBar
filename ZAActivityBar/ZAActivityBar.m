@@ -49,6 +49,8 @@
 - (void) dismissAll;
 - (void) dismissForAction:(NSString *)action;
 
+- (void) registerNotifications;
+
 @end
 
 @implementation ZAActivityBar
@@ -160,6 +162,9 @@
         
         if (!_isVisible) {
             _isVisible = YES;
+            
+            [self positionBar:nil];
+            [self registerNotifications];
             
             // We want to remove the previous animations
             [self removeAnimationForKey:ZA_ANIMATION_DISMISS_KEY];
@@ -342,6 +347,8 @@
         if (_isVisible) {
             _isVisible = NO;
             
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
+            
             // If the animation is midway through, we want it to drop immediately
             BOOL shouldDrop = [self.barView.layer.animationKeys containsObject:ZA_ANIMATION_SHOW_KEY];
 
@@ -390,17 +397,23 @@
 #pragma mark - Helpers
 
 - (float) getOffscreenYPosition {
-    return self.frame.size.height + ((HEIGHT / 2) + PADDING);
+    return [self getHeight] + ((HEIGHT / 2) + PADDING);
 }
 
 - (float) getBarYPosition {
-    return self.frame.size.height - ((HEIGHT / 2) + PADDING) - BOTTOM_OFFSET;
+    return [self getHeight] - ((HEIGHT / 2) + PADDING) - BOTTOM_OFFSET;
 }
 
-- (void) setYOffset:(float)yOffset {
-    CGRect rect = self.barView.frame;
-    rect.origin.y = yOffset;
-    [self.barView setFrame:rect];
+// Returns the height for the bar in the current orientation
+- (float) getHeight {
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    float height = self.overlayWindow.frame.size.height;
+    
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        height = self.overlayWindow.frame.size.width;
+    }
+    
+    return height;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -488,6 +501,54 @@
     return sharedView;
 }
 
+- (void) registerNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(positionBar:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                               object:nil];
+}
+
+- (void) positionBar:(NSNotification *)notification {
+
+    double animationDuration;
+    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+    CGFloat rotateAngle;
+    CGRect frame = self.overlayWindow.frame;
+    
+    switch (orientation) {
+        case UIInterfaceOrientationPortraitUpsideDown:
+            rotateAngle = M_PI;
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+            rotateAngle = -M_PI/2.0f;
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            rotateAngle = M_PI/2.0f;
+            break;
+        default: // as UIInterfaceOrientationPortrait
+            rotateAngle = 0.0;
+            break;
+    }
+    
+    if(notification) {
+        [UIView animateWithDuration:animationDuration
+                              delay:0
+                            options:UIViewAnimationOptionAllowUserInteraction
+                         animations:^{
+                             [self positionWithFrame:frame angle:rotateAngle];
+                        } completion:nil];
+    } else {
+        [self positionWithFrame:frame angle:rotateAngle];
+    }
+}
+
+- (void) positionWithFrame:(CGRect)frame angle:(CGFloat)angle {
+    self.overlayWindow.transform = CGAffineTransformMakeRotation(angle);
+    self.overlayWindow.frame = frame;
+}
+
 ///////////////////////////////////////////////////////////////
 
 #pragma mark - Getters
@@ -524,7 +585,7 @@
 
 - (UIView *)barView {
     if(!barView) {
-        CGRect rect = CGRectMake(PADDING, FLT_MAX, self.frame.size.width, HEIGHT);
+        CGRect rect = CGRectMake(PADDING, FLT_MAX, self.overlayWindow.frame.size.width, HEIGHT);
         rect.size.width -= 2 * PADDING;
         rect.origin.y = [self getOffscreenYPosition];
         barView = [[UIView alloc] initWithFrame:rect];
