@@ -92,4 +92,11 @@
 
 ///////////////////////////////////////////////////////////////
 
+#pragma mark -
+#pragma mark Rotation Methods
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
 @end
