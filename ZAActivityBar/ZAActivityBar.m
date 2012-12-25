@@ -164,6 +164,7 @@
             _isVisible = YES;
             
             [self positionBar:nil];
+            [self positionOffscreen];
             [self registerNotifications];
             
             // We want to remove the previous animations
@@ -506,6 +507,12 @@
                                              selector:@selector(positionBar:)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
+}
+
+- (void) positionOffscreen {
+    CGPoint position = self.barView.layer.position;
+    position.y = [self getOffscreenYPosition];
+    [self.barView.layer setPosition:position];
 }
 
 - (void) positionBar:(NSNotification *)notification {
