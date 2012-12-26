@@ -34,6 +34,7 @@
 }
 
 @property BOOL isVisible;
+@property NSUInteger offset;
 
 @property (nonatomic, strong, readonly) NSTimer *fadeOutTimer;
 @property (nonatomic, strong, readonly) UIWindow *overlayWindow;
@@ -56,6 +57,26 @@
 @implementation ZAActivityBar
 
 @synthesize fadeOutTimer, overlayWindow, barView, stringLabel, spinnerView, imageView;
+
+///////////////////////////////////////////////////////////////
+
+#pragma mark - Offset Properties
+
++ (void) setLocationBottom
+{
+    [ZAActivityBar sharedView].offset = 0.0f;
+}
+
++ (void) setLocationTabBar
+{
+    [ZAActivityBar sharedView].offset = 49.0f;
+}
+
++ (void) setLocationNavBar
+{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    [ZAActivityBar sharedView].offset = screenRect.size.height - 120.0f;
+}
 
 ///////////////////////////////////////////////////////////////
 
@@ -402,7 +423,7 @@
 }
 
 - (float) getBarYPosition {
-    return [self getHeight] - ((HEIGHT / 2) + PADDING) - BOTTOM_OFFSET;
+    return [self getHeight] - ((HEIGHT / 2) + PADDING) - self.offset;
 }
 
 // Returns the height for the bar in the current orientation
