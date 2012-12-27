@@ -12,9 +12,6 @@
 
 #import <UIKit/UIKit.h>
 
-// This allows you to offet the position of the indicator. 49.0f for Tab Bars.
-#define BOTTOM_OFFSET 0.0f
-
 // Visual Properties
 #define BAR_COLOR [[UIColor blackColor] colorWithAlphaComponent:0.8f]
 #define HEIGHT 40.0f
@@ -26,6 +23,14 @@
 #define DEFAULT_ACTION @"defaultAction"
 
 @interface ZAActivityBar : UIView
+
+///////////////////////////////////////////////////////////////////////
+
+// Properties
+
++ (void) setLocationBottom;
++ (void) setLocationTabBar;
++ (void) setLocationNavBar;
 
 ///////////////////////////////////////////////////////////////////////
 
