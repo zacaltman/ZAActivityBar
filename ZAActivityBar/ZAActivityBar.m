@@ -35,6 +35,7 @@
 
 @property BOOL isVisible;
 @property NSUInteger offset;
+@property NSUInteger duration;
 
 @property (nonatomic, strong, readonly) NSTimer *fadeOutTimer;
 @property (nonatomic, strong, readonly) UIWindow *overlayWindow;
@@ -76,6 +77,11 @@
 {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     [ZAActivityBar sharedView].offset = screenRect.size.height - 120.0f;
+}
+
++ (void) setDuration:(NSUInteger)duration
+{
+    [ZAActivityBar sharedView].duration = duration;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -247,6 +253,9 @@
 }
 
 - (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
+    
+    // Yes we are ignoring the duration parameter
+    duration = self.duration;
     
     // Add the action if it doesn't exist yet
     if (![self actionExists:action]) {
@@ -511,6 +520,8 @@
         _isVisible = NO;
         _actionArray = [NSMutableArray new];
         _actionDict = [NSMutableDictionary new];
+        self.duration = 1.0f;
+        self.offset = 0.0f;
     }
 	
     return self;

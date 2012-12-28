@@ -31,6 +31,7 @@
 + (void) setLocationBottom;
 + (void) setLocationTabBar;
 + (void) setLocationNavBar;
++ (void) setDuration:(NSUInteger)duration;
 
 ///////////////////////////////////////////////////////////////////////
 
