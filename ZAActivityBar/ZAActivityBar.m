@@ -162,15 +162,6 @@
 
 - (void) showWithStatus:(NSString *)status forAction:(NSString *)action {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(!self.superview)
-            [self.overlayWindow addSubview:self];
-        
-        self.fadeOutTimer = nil;
-        self.imageView.hidden = YES;
-
-        [self.overlayWindow setHidden:NO];
-        [self.spinnerView startAnimating];
-
         // Add the action
         [self addAction:action withStatus:status];
         
@@ -179,6 +170,15 @@
         if (!isPrimaryAction)
             return;
 
+        if(!self.superview)
+            [self.overlayWindow addSubview:self];
+        
+        self.fadeOutTimer = nil;
+        self.imageView.hidden = YES;
+        
+        [self.overlayWindow setHidden:NO];
+        [self.spinnerView startAnimating];
+        
         [self setStatus:status];
         
         if (!_isVisible) {
@@ -248,10 +248,7 @@
 
 - (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
     
-    // Add the action if it doesn't exist yet
-    if (![self actionExists:action]) {
-        [self addAction:action withStatus:status];
-    }
+    [self addAction:action withStatus:status];
     
     // Only continue if the action should be visible.
     BOOL isPrimaryAction = [self isPrimaryAction:action];
@@ -538,7 +535,7 @@
 
 - (void) positionBar:(NSNotification *)notification {
 
-    double animationDuration;
+    double animationDuration = 0.7f;
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 
