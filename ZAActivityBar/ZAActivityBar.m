@@ -36,6 +36,8 @@
 @property BOOL isVisible;
 @property NSUInteger offset;
 
+@property (nonatomic, strong, readonly) UIView *actionIndicatorView;
+@property (nonatomic, strong, readonly) UILabel *actionIndicatorLabel;
 @property (nonatomic, strong, readonly) NSTimer *fadeOutTimer;
 @property (nonatomic, strong, readonly) UIWindow *overlayWindow;
 @property (nonatomic, strong, readonly) UIView *barView;
@@ -56,7 +58,7 @@
 
 @implementation ZAActivityBar
 
-@synthesize fadeOutTimer, overlayWindow, barView, stringLabel, spinnerView, imageView;
+@synthesize fadeOutTimer, overlayWindow, barView, stringLabel, spinnerView, imageView, actionIndicatorView, actionIndicatorLabel;
 
 ///////////////////////////////////////////////////////////////
 
@@ -114,6 +116,8 @@
 
     [_actionDict setObject:a forKey:action];
     
+    [self updateActionIndicator];
+    
 }
 
 - (void) removeAction:(NSString *)action {
@@ -123,6 +127,8 @@
 
     [_actionDict removeObjectForKey:action];
     [_actionArray removeObject:action];
+
+    [self updateActionIndicator];
 
 }
 
@@ -138,6 +144,22 @@
 
 - (BOOL) actionExists:(NSString *)action {
     return [_actionArray containsObject:action];
+}
+
+- (void) updateActionIndicator {
+    NSUInteger count = [_actionArray count];
+    
+    // We only need to display this indicator if there is more than one message in the queue
+    BOOL shouldDisplay = (count > 1);
+    
+    [self.actionIndicatorView setHidden:!shouldDisplay];
+    
+    if (shouldDisplay) {
+        [self.actionIndicatorLabel setFrame:self.actionIndicatorView.bounds];
+        [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
+        // We want to resize the view here too...
+    }
+    
 }
 
 ///////////////////////////////////////////////////////////////
@@ -538,7 +560,7 @@
 
 - (void) positionBar:(NSNotification *)notification {
 
-    double animationDuration;
+    double animationDuration = 0.7;
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 
@@ -581,8 +603,52 @@
 
 #pragma mark - Getters
 
+- (UIView *) actionIndicatorView {
+    
+    if (!actionIndicatorView) {
+        actionIndicatorView = [UIView new];
+
+        // Size
+        float size = HEIGHT / 2;
+        CGRect rect = CGRectZero;
+        rect.size = CGSizeMake(size, size);
+        rect.origin.y = (HEIGHT - size) / 2;
+        rect.origin.x = self.barView.bounds.size.width - size - rect.origin.y;
+        [actionIndicatorView setFrame:rect];
+        
+        [actionIndicatorView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin)];
+        
+        CAShapeLayer *pill = [CAShapeLayer new];
+        [pill setPath:CGPathCreateWithEllipseInRect(actionIndicatorView.bounds, nil)];
+        [pill setFillColor:[UIColor whiteColor].CGColor];
+        [actionIndicatorView.layer addSublayer:pill];
+    }
+    
+    if(!actionIndicatorView.superview)
+        [self.barView addSubview:actionIndicatorView];
+
+    return actionIndicatorView;
+}
+
+- (UILabel *) actionIndicatorLabel {
+    if (!actionIndicatorLabel) {
+        actionIndicatorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		actionIndicatorLabel.textColor = [UIColor blackColor];
+		actionIndicatorLabel.backgroundColor = [UIColor clearColor];
+		actionIndicatorLabel.adjustsFontSizeToFitWidth = YES;
+		actionIndicatorLabel.textAlignment = UITextAlignmentCenter;
+		actionIndicatorLabel.font = [UIFont boldSystemFontOfSize:12];
+        actionIndicatorLabel.numberOfLines = 0;
+    }
+    
+    if(!actionIndicatorLabel.superview)
+        [self.actionIndicatorView addSubview:actionIndicatorLabel];
+    
+    return actionIndicatorLabel;
+}
+
 - (UILabel *)stringLabel {
-    if (stringLabel == nil) {
+    if (!stringLabel) {
         stringLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		stringLabel.textColor = [UIColor whiteColor];
 		stringLabel.backgroundColor = [UIColor clearColor];
@@ -626,7 +692,7 @@
 }
 
 - (UIActivityIndicatorView *)spinnerView {
-    if (spinnerView == nil) {
+    if (!spinnerView) {
         spinnerView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 		spinnerView.hidesWhenStopped = YES;
 		spinnerView.frame = CGRectMake(ICON_OFFSET, ICON_OFFSET, SPINNER_SIZE, SPINNER_SIZE);
@@ -639,7 +705,7 @@
 }
 
 - (UIImageView *)imageView {
-    if (imageView == nil)
+    if (!imageView)
         imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ICON_OFFSET, ICON_OFFSET, SPINNER_SIZE, SPINNER_SIZE)];
     
     if(!imageView.superview)
