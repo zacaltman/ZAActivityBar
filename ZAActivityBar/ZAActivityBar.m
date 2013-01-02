@@ -163,8 +163,11 @@
                         options:UIViewAnimationCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          self.actionIndicatorView.alpha = (makeHidden ? 0.0f : 1.0f);
-                         [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
-                     } completion:nil];
+                     } completion:^(BOOL finished) {
+                         if (finished) {
+                             [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
+                         }
+                     }];
     
 }
 
