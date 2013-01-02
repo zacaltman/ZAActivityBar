@@ -158,17 +158,30 @@
     
     [self.actionIndicatorLabel setFrame:self.actionIndicatorView.bounds];
     
+    // When animating in, we want to change the text before the view is displayed
+    // Would be nice to only set the text in a single place...
+    if (isHidden) {
+        [self setActionIndicatorCount:count];
+    }
+    
     [UIView animateWithDuration:(shouldAnimate ? 0.1f : 0.0f)
                           delay:0.0f
-                        options:UIViewAnimationCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
+                        options:UIViewAnimationCurveEaseIn // Not required: |UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          self.actionIndicatorView.alpha = (makeHidden ? 0.0f : 1.0f);
-                     } completion:^(BOOL finished) {
-                         if (finished) {
-                             [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
+                         
+                         // When animating out, we don't want the text to change.
+                         if (!makeHidden) {
+                             [self setActionIndicatorCount:count];
                          }
-                     }];
+                     } completion:nil];
     
+}
+
+- (void) setActionIndicatorCount:(NSUInteger)count {
+    [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
+    // May want to resize the shape to make a 'pill' shape in the future? Still looks fine for
+    // numbers up to 100.
 }
 
 ///////////////////////////////////////////////////////////////
