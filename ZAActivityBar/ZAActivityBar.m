@@ -150,15 +150,21 @@
     NSUInteger count = [_actionArray count];
     
     // We only need to display this indicator if there is more than one message in the queue
-    BOOL shouldDisplay = (count > 1);
+    BOOL makeHidden = (count <= 1);
+    BOOL isHidden = (self.actionIndicatorView.alpha == 0.0f);
     
-    [self.actionIndicatorView setHidden:!shouldDisplay];
+    // Who doesn't love animations
+    BOOL shouldAnimate = isHidden != makeHidden;
     
-    if (shouldDisplay) {
-        [self.actionIndicatorLabel setFrame:self.actionIndicatorView.bounds];
-        [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
-        // We want to resize the view here too...
-    }
+    [self.actionIndicatorLabel setFrame:self.actionIndicatorView.bounds];
+    
+    [UIView animateWithDuration:(shouldAnimate ? 0.1f : 0.0f)
+                          delay:0.0f
+                        options:UIViewAnimationCurveEaseIn|UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.actionIndicatorView.alpha = (makeHidden ? 0.0f : 1.0f);
+                         [self.actionIndicatorLabel setText:[NSString stringWithFormat:@"%i", count]];
+                     } completion:nil];
     
 }
 
@@ -614,6 +620,7 @@
         rect.origin.x = self.barView.bounds.size.width - size - rect.origin.y;
         
         actionIndicatorView = [UIView new];
+        actionIndicatorView.alpha = 0.0f;
         actionIndicatorView.frame = rect;
         actionIndicatorView.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
         
