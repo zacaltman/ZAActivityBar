@@ -606,21 +606,21 @@
 - (UIView *) actionIndicatorView {
     
     if (!actionIndicatorView) {
-        actionIndicatorView = [UIView new];
-
-        // Size
+        
         float size = HEIGHT / 2;
         CGRect rect = CGRectZero;
         rect.size = CGSizeMake(size, size);
         rect.origin.y = (HEIGHT - size) / 2;
         rect.origin.x = self.barView.bounds.size.width - size - rect.origin.y;
-        [actionIndicatorView setFrame:rect];
         
-        [actionIndicatorView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin)];
+        actionIndicatorView = [UIView new];
+        actionIndicatorView.frame = rect;
+        actionIndicatorView.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
         
+        // Circle shape
         CAShapeLayer *pill = [CAShapeLayer new];
-        [pill setPath:CGPathCreateWithEllipseInRect(actionIndicatorView.bounds, nil)];
-        [pill setFillColor:[UIColor whiteColor].CGColor];
+        pill.path = CGPathCreateWithEllipseInRect(actionIndicatorView.bounds, nil);
+        pill.fillColor = [UIColor whiteColor].CGColor;
         [actionIndicatorView.layer addSublayer:pill];
     }
     
@@ -655,6 +655,7 @@
 		stringLabel.adjustsFontSizeToFitWidth = YES;
 		stringLabel.textAlignment = UITextAlignmentLeft;
 		stringLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+        stringLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
 		stringLabel.font = [UIFont boldSystemFontOfSize:14];
 		stringLabel.shadowColor = [UIColor blackColor];
 		stringLabel.shadowOffset = CGSizeMake(0, -1);
