@@ -4,6 +4,8 @@ _**If your project doesn't use ARC**: you must add the `-fobjc-arc` compiler fla
 
 ZAActivityBar is an easy-to-use queueable activity bar that's meant to non-intrusively display the progress of a task.
 
+![ScreenShot](https://raw.github.com/zacaltman/ZAActivityBar/master/screenshot.png)
+
 ## Installation
 
 * Drag the `ZAActivityBar` folder into your project.
