@@ -535,6 +535,7 @@
 - (void)dealloc {
 	self.fadeOutTimer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    	[super dealloc];
 }
 
 - (void)setFadeOutTimer:(NSTimer *)newTimer {
