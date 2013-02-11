@@ -43,7 +43,11 @@
 + (void) showSuccessWithStatus:(NSString *)status;
 + (void) showErrorWithStatus:(NSString *)status;
 + (void) showImage:(UIImage *)image status:(NSString *)status;
-+ (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration;
+
+// Custom Durations
++ (void) showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
++ (void) showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
++ (void) showImage:(UIImage *)image status:(NSString*)status duration:(NSTimeInterval)duration;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -56,6 +60,10 @@
 + (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action;
 + (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action;
 + (void) showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action;
+
+// Custom Durations
++ (void) showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)duration forAction:(NSString *)action;
++ (void) showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)duration forAction:(NSString *)action;
 + (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action;
 
 ///////////////////////////////////////////////////////////////////////

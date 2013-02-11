@@ -260,25 +260,49 @@
     });
 }
 
+// Success
+
 + (void) showSuccessWithStatus:(NSString *)status {
     [ZAActivityBar showSuccessWithStatus:status forAction:DEFAULT_ACTION];
 }
 
++ (void) showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)duration {
+    [ZAActivityBar showSuccessWithStatus:status duration:duration forAction:DEFAULT_ACTION];
+}
+
 + (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action {
+    [ZAActivityBar showSuccessWithStatus:status duration:1.0f forAction:action];
+}
+
++ (void) showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/success.png"]
                       status:status
+                    duration:duration
                    forAction:action];
 }
+
+// Error
 
 + (void) showErrorWithStatus:(NSString *)status {
     [ZAActivityBar showErrorWithStatus:status forAction:DEFAULT_ACTION];
 }
 
++ (void) showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)duration {
+    [ZAActivityBar showErrorWithStatus:status duration:duration forAction:DEFAULT_ACTION];
+}
+
 + (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action {
+    [ZAActivityBar showErrorWithStatus:status duration:1.0f forAction:action];
+}
+
++ (void) showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
     [ZAActivityBar showImage:[UIImage imageNamed:@"ZAActivityBar.bundle/error.png"]
                       status:status
+                    duration:duration
                    forAction:action];
 }
+
+// Image
 
 + (void)showImage:(UIImage *)image status:(NSString *)status {
     [ZAActivityBar showImage:image status:status forAction:DEFAULT_ACTION];
@@ -289,10 +313,7 @@
 }
 
 + (void)showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action {
-    [[ZAActivityBar sharedView] showImage:image
-                                   status:status
-                                 duration:1.0
-                                forAction:action];
+    [ZAActivityBar showImage:image status:status duration:1.0f forAction:action];
 }
 
 + (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
