@@ -12,9 +12,11 @@ ZAActivityBar is an easy-to-use queueable activity bar that's meant to non-intru
 * Drag `SKBounceAnimation.h` and `SKBounceAnimation.m` files into your project (found in `External/SKBounceAnimation/SKBounceAnimation`)
 * Add the **QuartzCore** framework to your project.
 
-## Video
+## Live Demo
 
-<iframe src="http://kickfolio.com/embed/ArPcOA?orientation=portrait&device=iphone&chrome=true" width="305px" height="630px" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+[Go to Live Demo](http://kickfolio.com/w/ArPcOA)
+
+## Video
 
 [Basic Use](https://www.dropbox.com/s/bwv8z9u595ehngi/ZAActivityBar.mov)
 
