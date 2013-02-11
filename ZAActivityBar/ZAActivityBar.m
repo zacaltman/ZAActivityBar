@@ -284,10 +284,21 @@
     [ZAActivityBar showImage:image status:status forAction:DEFAULT_ACTION];
 }
 
++ (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration {
+    [ZAActivityBar showImage:image status:status duration:duration forAction:DEFAULT_ACTION];
+}
+
 + (void)showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action {
     [[ZAActivityBar sharedView] showImage:image
                                    status:status
                                  duration:1.0
+                                forAction:action];
+}
+
++ (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
+    [[ZAActivityBar sharedView] showImage:image
+                                   status:status
+                                 duration:duration
                                 forAction:action];
 }
 

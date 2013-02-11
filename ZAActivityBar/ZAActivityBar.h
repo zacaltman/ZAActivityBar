@@ -43,6 +43,7 @@
 + (void) showSuccessWithStatus:(NSString *)status;
 + (void) showErrorWithStatus:(NSString *)status;
 + (void) showImage:(UIImage *)image status:(NSString *)status;
++ (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -55,6 +56,7 @@
 + (void) showSuccessWithStatus:(NSString *)status forAction:(NSString *)action;
 + (void) showErrorWithStatus:(NSString *)status forAction:(NSString *)action;
 + (void) showImage:(UIImage *)image status:(NSString *)status forAction:(NSString *)action;
++ (void) showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action;
 
 ///////////////////////////////////////////////////////////////////////
 
