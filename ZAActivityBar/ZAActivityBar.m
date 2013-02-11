@@ -209,6 +209,9 @@
         if(!self.superview)
             [self.overlayWindow addSubview:self];
         
+        // Add the action
+        [self addAction:action withStatus:status];
+
         // Only continue if the action should be visible.
         BOOL isPrimaryAction = [self isPrimaryAction:action];
         if (!isPrimaryAction)
@@ -219,9 +222,6 @@
 
         [self.overlayWindow setHidden:NO];
         [self.spinnerView startAnimating];
-
-        // Add the action
-        [self addAction:action withStatus:status];
         
         [self setStatus:status];
         
