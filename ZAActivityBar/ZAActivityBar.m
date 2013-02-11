@@ -325,16 +325,16 @@
 
 - (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration forAction:(NSString *)action {
     
+    // Add the action if it doesn't exist yet
+    if (![self actionExists:action]) {
+        [self addAction:action withStatus:status];
+    }
+
     // Only continue if the action should be visible.
     BOOL isPrimaryAction = [self isPrimaryAction:action];
     if (!isPrimaryAction) {
         [self removeAction:action];
         return;
-    }
-
-    // Add the action if it doesn't exist yet
-    if (![self actionExists:action]) {
-        [self addAction:action withStatus:status];
     }
     
     if(![ZAActivityBar isVisible])
