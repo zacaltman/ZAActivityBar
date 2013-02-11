@@ -209,6 +209,11 @@
         if(!self.superview)
             [self.overlayWindow addSubview:self];
         
+        // Only continue if the action should be visible.
+        BOOL isPrimaryAction = [self isPrimaryAction:action];
+        if (!isPrimaryAction)
+            return;
+
         self.fadeOutTimer = nil;
         self.imageView.hidden = YES;
 
@@ -218,11 +223,6 @@
         // Add the action
         [self addAction:action withStatus:status];
         
-        // Only continue if the action should be visible.
-        BOOL isPrimaryAction = [self isPrimaryAction:action];
-        if (!isPrimaryAction)
-            return;
-
         [self setStatus:status];
         
         if (!_isVisible) {
@@ -240,6 +240,7 @@
             id bounceFinalValue = [NSNumber numberWithFloat:[self getBarYPosition]];
             
             SKBounceAnimation *bounceAnimation = [SKBounceAnimation animationWithKeyPath:bounceKeypath];
+            [bounceAnimation setValue:ZA_ANIMATION_SHOW_KEY forKey:@"identifier"]; // So we can find identify animations later
             bounceAnimation.fromValue = bounceOrigin;
             bounceAnimation.toValue = bounceFinalValue;
             bounceAnimation.shouldOvershoot = YES;
@@ -308,7 +309,7 @@
         [ZAActivityBar showForAction:action];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-
+        
         self.imageView.image = image;
         self.imageView.hidden = NO;
         [self setStatus:status];
@@ -437,12 +438,14 @@
             
             // Perform the animation
             CAKeyframeAnimation *frameAnimation = [CAKeyframeAnimation animationWithKeyPath:keypath];
+            [frameAnimation setValue:ZA_ANIMATION_DISMISS_KEY forKey:@"identifier"]; // So we can find identify animations later
 //            [frameAnimation setCalculationMode:kCAAnimationLinear]; Defaults to Linear.
             [frameAnimation setKeyTimes:keyTimes];
             [frameAnimation setValues:values];
             [frameAnimation setTimingFunctions:timingFunctions];
             [frameAnimation setDuration:duration];
             [frameAnimation setRemovedOnCompletion:YES];
+            [frameAnimation setDelegate:self];
             
             [self.barView.layer addAnimation:frameAnimation forKey:ZA_ANIMATION_DISMISS_KEY];
             
@@ -489,6 +492,18 @@
 // For some reason the SKBounceAnimation isn't removed if this method
 // doesn't exist... Why?
 - (void) animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    
+    // If the animation actually finished
+    if (flag) {
+        
+        // Let's check if it's the right animation
+        BOOL isDismiss = [[anim valueForKey:@"identifier"] isEqualToString:ZA_ANIMATION_DISMISS_KEY];
+        if (isDismiss) {
+            // Get rid of the stupid thing:
+            [overlayWindow removeFromSuperview];
+            overlayWindow = nil;
+        }
+    }
 }
 
 - (void) removeAnimationForKey:(NSString *)key {
@@ -697,6 +712,7 @@
         overlayWindow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         overlayWindow.backgroundColor = [UIColor clearColor];
         overlayWindow.userInteractionEnabled = NO;
+        overlayWindow.windowLevel = UIWindowLevelNormal; // UIWindowLevelAlert = infront of keyboard.
     }
     return overlayWindow;
 }
