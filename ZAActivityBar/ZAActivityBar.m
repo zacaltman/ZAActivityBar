@@ -12,6 +12,14 @@
 #define ZA_ANIMATION_SHOW_KEY @"showAnimation"
 #define ZA_ANIMATION_DISMISS_KEY @"dismissAnimation"
 
+#ifdef __IPHONE_6_0
+#   define UITextAlignmentCenter    NSTextAlignmentCenter
+#   define UITextAlignmentLeft      NSTextAlignmentLeft
+#   define UITextAlignmentRight     NSTextAlignmentRight
+#   define UILineBreakModeTailTruncation     NSLineBreakByTruncatingTail
+#   define UILineBreakModeMiddleTruncation   NSLineBreakByTruncatingMiddle
+#endif
+
 ///////////////////////////////////////////////////////////////
 
 @interface ZAActivityAction : NSObject
