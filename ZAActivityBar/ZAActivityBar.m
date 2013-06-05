@@ -542,6 +542,7 @@
             // Get rid of the stupid thing:
             [overlayWindow removeFromSuperview];
             overlayWindow = nil;
+            [[UIApplication sharedApplication].delegate.window makeKeyAndVisible];
         }
     }
 }
