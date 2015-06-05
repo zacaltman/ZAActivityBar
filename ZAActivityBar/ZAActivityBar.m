@@ -542,6 +542,9 @@
             // Get rid of the stupid thing:
             [overlayWindow removeFromSuperview];
             overlayWindow = nil;
+
+            [barView removeFromSuperview];
+            barView = nil;
         }
     }
 }
@@ -765,7 +768,6 @@
         barView = [[UIView alloc] initWithFrame:rect];
         barView.layer.cornerRadius = 6;
 		barView.backgroundColor = BAR_COLOR;
-        barView.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
         [self addSubview:barView];
     }
     return barView;
